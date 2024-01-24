@@ -4,13 +4,21 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "@/lib/schemas";
 
 export default function SignIn() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   function onSubmit(e) {
     console.log(e);
@@ -76,12 +84,12 @@ export default function SignIn() {
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <Input
-                      {...register("remember", { required: true })}
+                      {...register("remember")}
                       id="remember"
                       aria-describedby="remember"
                       type="checkbox"
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required=""
+                      // required=""
                     />
                   </div>
                   <div className="ml-3 text-sm">
@@ -102,7 +110,7 @@ export default function SignIn() {
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="w-full text-black bg-gray-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 Sign in
               </button>
