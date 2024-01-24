@@ -1,13 +1,16 @@
 "use client";
-import React from "react";
+import React, { useTransition } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/lib/schemas";
+import { login } from "@/serverActions/serverActions";
 
 export default function SignIn() {
+  const [isPending, startTransition] = useTransition();
+
   const {
     register,
     handleSubmit,
@@ -21,7 +24,11 @@ export default function SignIn() {
   });
 
   function onSubmit(e) {
-    console.log(e);
+    startTransition(() => {
+      login(e);
+      //   .then(()=>{})  //todo set error or success state with useState
+      //   .then(()=>{});
+    });
   }
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -117,7 +124,7 @@ export default function SignIn() {
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <Link
-                  href="#"
+                  href="./api/auth/auth2/createaccount"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign up
