@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.8.1",
+    "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@tanstack/react-query": "^5.17.15",
     "@trpc/client": "^11.0.0-next-beta.208",
@@ -26,6 +27,7 @@
     "nodemailer": "^6.9.8",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.49.3",
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
