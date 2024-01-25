@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { Button } from "../components/ui/button";
-import { useQuery } from "@tanstack/react-query";
 import { trpc } from "@/trpcClient/client";
 export default function Home() {
   const data = trpc.userList.useQuery();

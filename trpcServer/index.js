@@ -8,7 +8,7 @@ export const appRouter = router({
             // const users = await db.user.findMany();
 
             // const users: User[]
-            return [10, 20, 30];
+            return [10, 20, 30, 40, 50];
         }),
 
     userById: publicProcedure
