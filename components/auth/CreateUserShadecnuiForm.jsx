@@ -122,7 +122,7 @@ export default function CreateUserShadecnuiForm() {
           {error != "" && <FormError message={error} />}
           {success != "" && <FormSuccess message={success} />}
           <Button className="w-full" type="submit">
-            Submit
+            Create an Account
           </Button>
         </form>
       </Form>
