@@ -1,5 +1,5 @@
 "use client";
-import React, { useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
@@ -7,8 +7,12 @@ import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/lib/schemas";
 import { login } from "@/serverActions/serverActions";
+import FormError from "../formError";
+import FormSuccess from "../formSuccess";
 
 export default function SignIn() {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [isPending, startTransition] = useTransition();
 
   const {
@@ -25,9 +29,10 @@ export default function SignIn() {
 
   function onSubmit(e) {
     startTransition(() => {
-      login(e);
-      //   .then(()=>{})  //todo set error or success state with useState
-      //   .then(()=>{});
+      login(e).then((data) => {
+        setError(data.error);
+        setSuccess(data.status);
+      }); //todo set error or success state with useState
     });
   }
   return (
@@ -61,6 +66,7 @@ export default function SignIn() {
                   Your email
                 </Label>
                 <Input
+                  disabled={isPending}
                   {...register("email", { required: true })}
                   type="email"
                   name="email"
@@ -78,6 +84,7 @@ export default function SignIn() {
                   Password
                 </Label>
                 <Input
+                  disabled={isPending}
                   {...register("password", { required: true })}
                   type="password"
                   name="password"
@@ -91,6 +98,7 @@ export default function SignIn() {
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <Input
+                      disabled={isPending}
                       {...register("remember")}
                       id="remember"
                       aria-describedby="remember"
@@ -116,6 +124,7 @@ export default function SignIn() {
                 </Link>
               </div>
               <button
+                disabled={isPending}
                 type="submit"
                 className="w-full text-black bg-gray-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
@@ -131,6 +140,8 @@ export default function SignIn() {
                 </Link>
               </p>
             </form>
+            {error != "" && <FormError message={error} />}
+            {success != "" && <FormSuccess message={success} />}
           </div>
         </div>
       </div>
