@@ -51,8 +51,10 @@ const handler = NextAuth({
 
     ],
     pages: {
-        signIn: 'auth2/signin',
-        signOut: 'auth2/signout',
+        // signIn: 'auth2/signin',
+        // signOut: 'auth2/signout',
+        signIn: 'auth3/signin',
+        signOut: 'auth3/signout',
         // error: '/auth2/error', // Error code passed in query string as ?error=
         // verifyRequest: '/auth2/verify-request', // (used for check email message)
         // newUser: 'auth2/createaccount' // New users will be directed here on first sign in (leave the property out if not of interest)
