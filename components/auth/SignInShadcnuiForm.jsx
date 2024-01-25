@@ -17,21 +17,32 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "../ui/checkbox";
 import FormError from "../formError";
 import FormSuccess from "../formSuccess";
+import { useState, useTransition } from "react";
+import { login } from "@/serverActions/serverActions";
 
 export default function SignInShadecnuiForm() {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
       remember: false,
     },
   });
 
   function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    setError("");
+    setSuccess("");
+    startTransition(() => {
+      login(values).then((data) => {
+        setError(data.error);
+        setSuccess(data.status);
+      }); //todo set error or success state with useState
+    });
   }
 
   return (
@@ -90,8 +101,8 @@ export default function SignInShadecnuiForm() {
               </FormItem>
             )}
           />
-          <FormError message="Invalid Credentials" />
-          <FormSuccess message="Successfully executed" />
+          {error != "" && <FormError message={error} />}
+          {success != "" && <FormSuccess message={success} />}
           <Button className="w-full" type="submit">
             Submit
           </Button>
