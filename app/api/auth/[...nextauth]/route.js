@@ -1,9 +1,12 @@
+import prisma from "@/lib/prismaClient"
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GithubProvider from "next-auth/providers/github"
 // import EmailProvider from "next-auth/providers/email"
 
 const handler = NextAuth({
+    adapter: PrismaAdapter(prisma),
     providers: [
         CredentialsProvider({
             // The name to display on the sign in form (e.g. 'Sign in with...')

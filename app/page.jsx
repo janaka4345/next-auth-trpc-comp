@@ -1,6 +1,9 @@
+"use client";
 import Link from "next/link";
 import { Button } from "../components/ui/button";
+import { trpc } from "@/trpcClient/client";
 export default function Home() {
+  const data = trpc.userList.useQuery();
   return (
     <div className="mx-auto w-fit mt-52">
       <h1>Home page</h1>
@@ -13,6 +16,7 @@ export default function Home() {
       <Link href="./api/auth/signout">
         <Button>Sign Out</Button>
       </Link>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
 
       {/* <Button onClick={handleClick}>click me</Button> */}
       {/* <LoginComponent>

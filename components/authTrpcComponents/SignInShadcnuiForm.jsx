@@ -1,6 +1,6 @@
 "use client";
 
-import { createUserSchema } from "@/lib/schemas";
+import { loginSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -18,21 +18,19 @@ import { Checkbox } from "../ui/checkbox";
 import FormError from "../formError";
 import FormSuccess from "../formSuccess";
 import { useState, useTransition } from "react";
-import { createUser } from "@/serverActions/serverActions";
-import Link from "next/link";
+import { login } from "@/serverActions/serverActions";
 
-export default function CreateUserShadecnuiForm() {
+export default function SignInShadecnuiForm() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isPending, startTransition] = useTransition();
 
   const form = useForm({
-    resolver: zodResolver(createUserSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
-      confirmPassword: "",
-      terms: false,
+      remember: false,
     },
   });
 
@@ -40,7 +38,7 @@ export default function CreateUserShadecnuiForm() {
     setError("");
     setSuccess("");
     startTransition(() => {
-      createUser(values).then((data) => {
+      login(values).then((data) => {
         setError(data.error);
         setSuccess(data.status);
       }); //todo set error or success state with useState
@@ -85,21 +83,7 @@ export default function CreateUserShadecnuiForm() {
           />
           <FormField
             control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="**********" {...field} />
-                </FormControl>
-                {/* <FormDescription>Use a strong Password.</FormDescription> */}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="terms"
+            name="remember"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -108,9 +92,7 @@ export default function CreateUserShadecnuiForm() {
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className="ml-2">
-                  I accept the <Link href="./">Terms and Conditions</Link>
-                </FormLabel>
+                <FormLabel className="ml-2">Remember Me</FormLabel>
                 {/* <FormDescription>
                   You can manage your mobile notifications in the{" "}
                   <Link href="/examples/forms">mobile settings</Link> page.
@@ -122,7 +104,7 @@ export default function CreateUserShadecnuiForm() {
           {error != "" && <FormError message={error} />}
           {success != "" && <FormSuccess message={success} />}
           <Button className="w-full" type="submit">
-            Create an Account
+            Submit
           </Button>
         </form>
       </Form>
