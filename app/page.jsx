@@ -2,10 +2,14 @@
 import Link from "next/link";
 import { Button } from "../components/ui/button";
 import { trpc } from "@/trpcClient/client";
+import { useSession } from "next-auth/react";
 export default function Home() {
   const data = trpc.userList.useQuery();
+  const { session } = useSession();
   return (
     <div className="mx-auto w-fit mt-52">
+      <h1>sup</h1>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
       <h1>Home page</h1>
       <Link href="./api/auth/auth2/createaccount">
         <Button>Create Account</Button>

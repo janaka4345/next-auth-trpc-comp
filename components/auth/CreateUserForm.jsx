@@ -3,16 +3,41 @@ import Link from "next/link";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
+import { createUser } from "@/serverActions/serverActions";
+import { useState, useTransition } from "react";
+import FormError from "../formError";
+import FormSuccess from "../formSuccess";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createUserSchema } from "@/lib/schemas";
 
 export default function CreateUserForm() {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isPending, startTransition] = useTransition();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: zodResolver(createUserSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      terms: false,
+    },
+  });
 
-  function onSubmit(e) {
-    console.log(e);
+  function onSubmit(value) {
+    setError("");
+    setSuccess("");
+    startTransition(() => {
+      createUser(value).then((data) => {
+        setError(data.error);
+        setSuccess(data.status);
+      }); //todo set error or success state with useState
+    });
   }
 
   return (
@@ -111,6 +136,8 @@ export default function CreateUserForm() {
                   </Label>
                 </div>
               </div>
+              {error != "" && <FormError message={error} />}
+              {success != "" && <FormSuccess message={success} />}
               <button
                 type="submit"
                 className="w-full text-black bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
