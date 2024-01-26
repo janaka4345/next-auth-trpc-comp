@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="mx-auto w-fit mt-52">
       <h1>sup</h1>
-      <h1>{JSON.stringify(session)}</h1>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
       <h1>Home page</h1>
       <Link href="./api/auth/auth2/createaccount">
         <Button>Create Account</Button>
