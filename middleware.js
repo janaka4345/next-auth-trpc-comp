@@ -1,9 +1,12 @@
-import { auth } from "./auth"
+import authConfig from "./auth.config"
+import NextAuth from "next-auth"
+export const { auth } = NextAuth(authConfig)
+
 
 export default auth((req) => {
     // req.auth
-    const isLogedin = !!req.auth
-    console.log('route-', req.nextUrl.pathname, '-', isLogedin);
+    // const isLogedin = !!req.auth
+    // console.log('route-', req.nextUrl.pathname, '-', isLogedin);
 
 })
 
