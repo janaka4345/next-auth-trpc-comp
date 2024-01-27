@@ -12,8 +12,6 @@ export async function server() {
 export async function login(payload) {
     const ValidatedFields = loginSchema.safeParse(payload)
 
-
-
     if (!ValidatedFields.success) {
         return { error: "Invalid Credentials" }
     }
