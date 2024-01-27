@@ -3,7 +3,7 @@
  * do not require authentication
  * @type {string[]}
  */
-export const publicRoutes = ['/']
+export const publicRoutes = ['/', '/test']
 /**
  * auth routes
  * do not require authentication
@@ -15,7 +15,8 @@ export const authRoutes = ['/auth/signin', '/auth/auth3/createuser']
  *  require authentication
  * @type {string[]}
  */
-export const protectedRoutes = ['/settings', '/test', '/logedinDefault']
+export const protectedRoutes = ['/settings', '/logedinDefault']
+
 export const authPrefix = '/api/auth'
 /**
  * default redirect path after login
