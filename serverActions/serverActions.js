@@ -1,8 +1,12 @@
 'use server'
 
+import { LOGIN_REDIRECT } from "@/allRoutes";
+import { signIn } from "@/auth";
 import prisma from "@/lib/prismaClient";
 import { createUserSchema, loginSchema } from "@/lib/schemas";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
+import { AuthError } from "next-auth";
+import { redirect } from "next/dist/server/api-utils";
 
 export async function server() {
     console.log('hi from server');
@@ -15,7 +19,23 @@ export async function login(payload) {
     if (!ValidatedFields.success) {
         return { error: "Invalid Credentials" }
     }
-    return { status: "Email Sent!" }
+    // return { status: "Email Sent!" }
+    const { email, password } = ValidatedFields.data
+    try {
+        signIn('credentials',
+            { email, password, redirectTo: LOGIN_REDIRECT },
+
+        )
+    } catch (error) {
+        if (error instanceof AuthError) {
+            switch (error.type) {
+                case 'CredentialsSignin': return { error: "Invalid Credentials" }
+                default: return { error: "Something Went Wrong" }
+            }
+
+        }
+        throw error
+    }
 
 
     // make it return Response.json with next  js check

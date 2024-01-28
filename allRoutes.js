@@ -18,6 +18,7 @@ export const authRoutes = ['/auth/signin', '/auth/auth3/createuser']
 export const protectedRoutes = ['/settings', '/logedinDefault']
 
 export const authPrefix = '/api/auth'
+export const trpcPrefix = '/api/trpc'
 /**
  * default redirect path after login
  * @type {string}

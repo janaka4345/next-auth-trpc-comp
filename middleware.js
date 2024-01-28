@@ -4,7 +4,8 @@ import {
     LOGIN_REDIRECT,
     authPrefix,
     authRoutes,
-    publicRoutes
+    publicRoutes,
+    trpcPrefix
 } from '@/allRoutes'
 export const { auth } = NextAuth(authConfig)
 
@@ -14,15 +15,21 @@ export default auth((req) => {
     const isLogedin = !!req.auth
 
     const isApiRoutes = nextUrl.pathname.startsWith(authPrefix)
+    const istrpcRoutes = nextUrl.pathname.startsWith(trpcPrefix)
     const isPublicRoutes = publicRoutes.includes(nextUrl.pathname)
     const isAuthRoutes = authRoutes.includes(nextUrl.pathname)
 
-    if (isApiRoutes) {
+    if (isApiRoutes || istrpcRoutes) {
+
+        return null
+    }
+    if (istrpcRoutes) {
 
         return null
     }
 
-    if (isApiRoutes) {
+
+    if (isAuthRoutes) {
         if (isLogedin) {
             return Response.redirect(new URL(LOGIN_REDIRECT, nextUrl))
         }
@@ -40,4 +47,5 @@ export default auth((req) => {
 // Optionally, don't invoke Middleware on some paths
 export const config = {
     matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+
 }
