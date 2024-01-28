@@ -26,6 +26,7 @@ export async function login(payload) {
             { email, password, redirectTo: LOGIN_REDIRECT },
 
         )
+        return { status: "Email Sent!" }
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
@@ -34,7 +35,7 @@ export async function login(payload) {
             }
 
         }
-        throw error
+        return { error: "Something Went Wrong" }
     }
 
 

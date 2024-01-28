@@ -7,31 +7,47 @@ export default {
     providers: [Credentials({
 
         credentials: {
-            username: { label: "Username" },
-            password: { label: "Password", type: "password" }
+            email: { label: "email" },
+            password: { label: "password", type: "password" },
         },
         async authorize(credentials) {
+            console.log('**********************************');
+            console.log(credentials);
             const validateData = loginSchema.safeParse(credentials)
-            if (validateData.success) {
-                const { email, password } = validateData.data
-                const user = await prisma.user.findUnique({
-                    where: { email }//TODO add this as a util file 
-                })
-                if (!user || !user.password) {
-                    return null
-                }
-                const passwordMatch = await bcrypt.compare(password, user.password)
-                if (passwordMatch) {
-                    return user
-                }
-                return null
-            }
+            console.log(validateData);
+            console.log('**********************************');
+            return null
+            // if (validateData.success) {
+            //     const user = await prisma.user.findUnique({
+            //         where: { email }//TODO add this as a util file 
+            //     })
+            //     console.log(user);
+            //     const { email, password } = validateData.data
+            //     if (!user || !user.password) {
+            //         return null
+            //     }
+            //     const passwordMatch = await bcrypt.compare(password, user.password)
+            //     if (passwordMatch) {
+            //         return user
+            //     }
+            //     return { error: 'autorized failed message' }
+            // }
+        }
 
-        },
+        // },
         // async authorize({ request }) {
         //     const response = await fetch(request)
         //     if (!response.ok) return null
         //     return await response.json() ?? null
         // }
     }), GitHub],
+    pages: {
+        // signIn: 'auth2/signin',
+        // signOut: 'auth2/signout',
+        // signIn: 'auth3/signin',
+        // signOut: 'auth3/signout',
+        // error: '/auth2/error', // Error code passed in query string as ?error=
+        // verifyRequest: '/auth2/verify-request', // (used for check email message)
+        // newUser: 'auth2/createaccount' // New users will be directed here on first sign in (leave the property out if not of interest)
+    }
 } 
