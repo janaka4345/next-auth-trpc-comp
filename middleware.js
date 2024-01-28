@@ -13,6 +13,7 @@ export const { auth } = NextAuth(authConfig)
 export default auth((req) => {
     const { nextUrl } = req
     const isLogedin = !!req.auth
+    console.log('route-', nextUrl.pathname);
 
     console.log(isLogedin);
 
@@ -20,6 +21,14 @@ export default auth((req) => {
     const istrpcRoutes = nextUrl.pathname.startsWith(trpcPrefix)
     const isPublicRoutes = publicRoutes.includes(nextUrl.pathname)
     const isAuthRoutes = authRoutes.includes(nextUrl.pathname)
+    console.log('auth', isApiRoutes);
+
+    if (isAuthRoutes) {
+        if (isLogedin) {
+            return Response.redirect(new URL(LOGIN_REDIRECT, nextUrl))
+        }
+        return null
+    }
 
     if (isApiRoutes || istrpcRoutes) {
 
@@ -31,15 +40,8 @@ export default auth((req) => {
     }
 
 
-    if (isAuthRoutes) {
-        if (isLogedin) {
-            return Response.redirect(new URL(LOGIN_REDIRECT, nextUrl))
-        }
-        return null
-    }
-    // if (isLogedin ) {
-    //     return Response.redirect(new URL('api/settings', nextUrl))
-    // }
+
+
     if (!isLogedin && !isPublicRoutes) {
         return Response.redirect(new URL('api/auth/signin', nextUrl))
     }

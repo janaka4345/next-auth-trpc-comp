@@ -9,7 +9,7 @@ export const publicRoutes = ['/', '/test']
  * do not require authentication
  * @type {string[]}
  */
-export const authRoutes = ['/auth/signin', '/auth/auth3/createuser']
+export const authRoutes = ['/api/auth/signin', '/auth/auth3/createuser']
 /**
  * private routes
  *  require authentication
