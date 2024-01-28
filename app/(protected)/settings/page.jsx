@@ -1,7 +1,8 @@
 import { auth } from "@/auth";
 
-export default function Settings() {
-  const session = auth();
+export default async function Settings() {
+  const session = await auth();
+  console.log("hi");
   return (
     <div>
       <h1>Settings</h1>

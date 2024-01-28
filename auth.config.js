@@ -16,22 +16,23 @@ export default {
             const validateData = loginSchema.safeParse(credentials)
             console.log(validateData);
             console.log('**********************************');
-            return null
-            // if (validateData.success) {
-            //     const user = await prisma.user.findUnique({
-            //         where: { email }//TODO add this as a util file 
-            //     })
-            //     console.log(user);
-            //     const { email, password } = validateData.data
-            //     if (!user || !user.password) {
-            //         return null
-            //     }
-            //     const passwordMatch = await bcrypt.compare(password, user.password)
-            //     if (passwordMatch) {
-            //         return user
-            //     }
-            //     return { error: 'autorized failed message' }
-            // }
+
+            if (validateData.success) {
+                const { email, password } = validateData.data
+                const user = await prisma.user.findUnique({
+                    where: { email }//TODO add this as a util file 
+                })
+                console.log(user);
+                console.log('**********************************');
+                if (!user || !user.password) {
+                    return { error: 'No User Found' }
+                }
+                const passwordMatch = await bcrypt.compare(password, user.password)
+                if (passwordMatch) {
+                    return user
+                }
+                return { error: 'autorized failed message' }
+            }
         }
 
         // },
