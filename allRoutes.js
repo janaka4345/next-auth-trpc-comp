@@ -9,7 +9,7 @@ export const publicRoutes = ['/', '/test']
  * do not require authentication
  * @type {string[]}
  */
-export const authRoutes = ['/auth/signin', '/auth/auth3/createuser']
+export const authRoutes = ['/api/auth/signin', '/auth/auth3/createuser']
 /**
  * private routes
  *  require authentication
@@ -18,6 +18,7 @@ export const authRoutes = ['/auth/signin', '/auth/auth3/createuser']
 export const protectedRoutes = ['/settings', '/logedinDefault']
 
 export const authPrefix = '/api/auth'
+export const trpcPrefix = '/api/trpc'
 /**
  * default redirect path after login
  * @type {string}
